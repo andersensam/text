@@ -56,10 +56,10 @@ http_archive(
 
 http_archive(
     name = "org_tensorflow",
-    strip_prefix = "tensorflow-2.17.0",
-    sha256 = "dc0410a05f2d6af0295ae93f8bd8904acc001d150aef06b20ce4bf24a303be86",
+    strip_prefix = "tensorflow-r2.17",
+    sha256 = "a8ac7edda528d1bdec5100e202cf63338ae8afbe4bd7b1382b3c289bac71e721",
     urls = [
-        "https://github.com/tensorflow/tensorflow/archive/v2.17.0.zip"
+        "https://github.com/andersensam/tensorflow/archive/refs/heads/r2.17.zip"
     ],
 )
 
@@ -110,6 +110,7 @@ python_init_repositories(
         "3.9": "//oss_scripts/pip_package:requirements_lock_3_9.txt",
         "3.10": "//oss_scripts/pip_package:requirements_lock_3_10.txt",
         "3.11": "//oss_scripts/pip_package:requirements_lock_3_11.txt",
+        "3.12": "//oss_scripts/pip_package:requirements_lock_3_12.txt",
     },
     default_python_version = "system",
 )
