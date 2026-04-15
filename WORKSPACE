@@ -2,6 +2,7 @@ workspace(name = "org_tensorflow_text")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//third_party/bazel:http.bzl", "custom_http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 # githu.com/tensorflow#104948 - Support latest Xcode.
 http_archive(
@@ -66,15 +67,13 @@ http_archive(
     ],
 )
 
-http_archive(
+# Use git_repository to avoid having to update SHA256 each time a new commit is made
+git_repository(
     name = "org_tensorflow",
+    branch = "r2.21",
+    remote = "https://github.com/andersensam/tensorflow.git",
     patch_args = ["-p1"],
     patches = ["//third_party/tensorflow:tensorflow.core.BUILD.patch"],
-    sha256 = "213edf03ac7c4e74d8eb2074216ae8c8ae4f325c6bc22efd16cfdeed2073bd66",
-    strip_prefix = "tensorflow-2.20.0",
-    urls = [
-        "https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.20.0.zip",
-    ],
 )
 
 http_archive(
