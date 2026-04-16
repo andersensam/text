@@ -103,8 +103,13 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_shell/releases/download/v0.4.1/rules_shell-v0.4.1.tar.gz",
 )
 
+# Initialize TensorFlow dependencies.
+load("@org_tensorflow//tensorflow:workspace3.bzl", "tf_workspace3")
+
+tf_workspace3()
+
 # Initialize hermetic Python
-load("@org_tensorflow//third_party/py:python_init_rules.bzl", "python_init_rules")
+load("@xla//third_party/py:python_init_rules.bzl", "python_init_rules")
 
 python_init_rules()
 
@@ -141,22 +146,13 @@ python_init_repositories(
     },
 )
 
-load("@org_tensorflow//third_party/py:python_init_toolchains.bzl", "python_init_toolchains")
+load("@xla//third_party/py:python_init_toolchains.bzl", "python_init_toolchains")
 
 python_init_toolchains()
 
-load("//third_party/tensorflow:tf_configure.bzl", "tf_configure")
+#load("@xla//third_party/py:python_init_pip.bzl", "python_init_pip")
 
-tf_configure()
-
-load("@pypi//:requirements.bzl", "install_deps")
-
-install_deps()
-
-# Initialize TensorFlow dependencies.
-load("@org_tensorflow//tensorflow:workspace3.bzl", "tf_workspace3")
-
-tf_workspace3()
+#python_init_pip()
 
 load("@org_tensorflow//tensorflow:workspace2.bzl", "tf_workspace2")
 
@@ -180,20 +176,29 @@ load("@local_config_android//:android.bzl", "android_workspace")
 android_workspace()
 
 load(
-    "@local_xla//third_party/py:python_wheel.bzl",
+    "@xla//third_party/py:python_wheel.bzl",
     "python_wheel_version_suffix_repository",
 )
 
 python_wheel_version_suffix_repository(name = "tf_wheel_version_suffix")
 
+load("//third_party/tensorflow:tf_configure.bzl", "tf_configure")
+
+tf_configure()
+
+load("@pypi//:requirements.bzl", "install_deps")
+
+install_deps()
+
 # Toolchains for ML projects hermetic builds.
 # Details: https://github.com/google-ml-infra/rules_ml_toolchain
+# Use fork with CUDA capabiltiy fix included
 http_archive(
     name = "rules_ml_toolchain",
-    sha256 = "54c1a357f71f611efdb4891ebd4bcbe4aeb6dfa7e473f14fd7ecad5062096616",
-    strip_prefix = "rules_ml_toolchain-d8cb9c2c168cd64000eaa6eda0781a9615a26ffe",
+    sha256 = "e437448557fb0528a9a3b3dc9399465426eeaaae7101360983d6c1a56b7846ea",
+    strip_prefix = "rules_ml_toolchain-5859ea7c33f8c608e4d231e1f49417262867320a",
     urls = [
-        "https://github.com/google-ml-infra/rules_ml_toolchain/archive/d8cb9c2c168cd64000eaa6eda0781a9615a26ffe.tar.gz",
+        "https://github.com/andersensam/rules_ml_toolchain/archive/5859ea7c33f8c608e4d231e1f49417262867320a.tar.gz",
     ],
 )
 

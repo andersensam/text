@@ -53,10 +53,10 @@ fi
 # fi
 
 # Copy the current bazelversion of TF.
-curl https://raw.githubusercontent.com/tensorflow/tensorflow/v2.20.0/.bazelversion -o .bazelversion
+curl https://raw.githubusercontent.com/andersensam/tensorflow/r2.21/.bazelversion -o .bazelversion
 
 # Copy the building configuration of TF.
-curl https://raw.githubusercontent.com/tensorflow/tensorflow/v2.20.0/.bazelrc -o .bazelrc
+curl https://raw.githubusercontent.com/andersensam/tensorflow/r2.21/.bazelrc -o .bazelrc
 # This line breaks Windows builds, so we remove it.
 sed -i -e 's/build --noincompatible_remove_legacy_whole_archive//' .bazelrc
 
@@ -77,7 +77,7 @@ if [[ "$IS_NIGHTLY" == "nightly" ]]; then
   bazel run //oss_scripts/pip_package:requirements.update -- --upgrade
 fi
 
-TF_ABIFLAG=$(bazel run //oss_scripts/pip_package:tensorflow_build_info -- abi)
+TF_ABIFLAG=$(bazel run //oss_scripts/pip_package:tensorflow_build_info --experimental_repo_remote_exec  -- abi)
 SHARED_LIBRARY_NAME="libtensorflow_framework.so.2"
 if is_macos; then
   SHARED_LIBRARY_NAME="libtensorflow_framework.2.dylib"
