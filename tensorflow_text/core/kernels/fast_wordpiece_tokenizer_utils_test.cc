@@ -16,6 +16,8 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include "tensorflow/core/platform/macros.h"
+#define ASSERT_OK_AND_ASSIGN TF_ASSERT_OK_AND_ASSIGN
 
 namespace tensorflow {
 namespace text {
@@ -82,8 +84,9 @@ using TokenEncodingDecodingTest = testing::TestWithParam<TokenSpec>;
 
 TEST_P(TokenEncodingDecodingTest, GeneralTest) {
   const TokenSpec& spec = GetParam();
+  int encoded_value;
   ASSERT_OK_AND_ASSIGN(
-      auto encoded_value,
+      encoded_value,
       EncodeToken(spec.token_id, spec.token_length, spec.is_suffix_token));
   EXPECT_THAT(GetTokenId(encoded_value), spec.token_id);
   EXPECT_THAT(GetTokenLength(encoded_value), spec.token_length);

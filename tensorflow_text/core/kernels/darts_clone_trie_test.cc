@@ -14,6 +14,8 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include "tensorflow/core/platform/macros.h"
+#define ASSERT_OK_AND_ASSIGN TF_ASSERT_OK_AND_ASSIGN
 #include "tensorflow_text/core/kernels/darts_clone_trie_builder.h"
 #include "tensorflow_text/core/kernels/darts_clone_trie_wrapper.h"
 

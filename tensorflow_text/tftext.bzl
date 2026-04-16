@@ -2,7 +2,7 @@
 Build rules for open source tf.text libraries.
 """
 load(
-    "@local_xla//third_party/py/rules_pywrap:pywrap.default.bzl", 
+    "@xla//third_party/py/rules_pywrap:pywrap.default.bzl", 
     _pybind_extension = "pybind_extension",
     _pywrap_binaries = "pywrap_binaries",
     _pywrap_library = "pywrap_library"
@@ -12,6 +12,7 @@ def py_tf_text_library(
         name,
         srcs = [],
         deps = [],
+        data = [],
         visibility = None,
         cc_op_defs = [],
         cc_op_kernels = []):
@@ -96,7 +97,7 @@ def py_tf_text_library(
         srcs = srcs,
         srcs_version = "PY2AND3",
         visibility = visibility,
-        data = [":" + binary_name],
+        data = [":" + binary_name] + data,
         deps = deps,
     )
 
@@ -154,7 +155,6 @@ def tf_cc_library(
     oss_deps = oss_deps + _dedupe(deps, "@com_google_absl//absl/strings:cord")
     oss_deps = oss_deps + _dedupe(deps, "@com_google_absl//absl/time")
     oss_deps = oss_deps + _dedupe(deps, "@com_google_absl//absl/types:variant")
-    oss_deps = oss_deps + _dedupe(deps, "@com_google_absl//absl/utility:if_constexpr")
     deps += select({
         "@org_tensorflow//tensorflow:mobile": [
             "@org_tensorflow//tensorflow/core:portable_tensorflow_lib_lite",
@@ -239,7 +239,6 @@ def tflite_cc_library(
 def extra_py_deps():
     return [
         "@release_or_nightly//:tensorflow_pkg",
-        "@release_or_nightly//:tf_keras_pkg",
         "@pypi_tensorflow_datasets//:pkg",
         "@pypi_tensorflow_metadata//:pkg",
     ]

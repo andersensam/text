@@ -8,9 +8,8 @@ setuptools>=70.1  # bdist_wheel support.
 array-record==0.4.1; python_version == "3.9"
 array-record>=0.8.1; python_version >= "3.10"
 
-tensorflow
+tensorflow==2.21.0
 numpy
 protobuf
-tf-keras
 tensorflow-datasets
 tensorflow-metadata

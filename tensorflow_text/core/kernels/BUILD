@@ -360,6 +360,7 @@ cc_test(
         ":darts_clone_trie_wrapper",
         "@com_google_absl//absl/status",
         "@com_google_googletest//:gtest_main",
+        "@org_tensorflow//tensorflow/core:lib",
     ],
 )
 
@@ -536,6 +537,7 @@ cc_test(
     deps = [
         ":fast_wordpiece_tokenizer_utils",
         "@com_google_googletest//:gtest_main",
+        "@org_tensorflow//tensorflow/core:lib",
     ],
 )
 
@@ -1030,6 +1032,7 @@ cc_library(
     hdrs = ["text_kernels_test_util.h"],
     deps = [
         "@com_google_googletest//:gtest",
+        "@org_tensorflow//tensorflow/core:framework",
         # tf:framework tensorflow dep,
         # tf:testlib tensorflow dep,
     ],
@@ -1162,6 +1165,7 @@ cc_test(
         "@com_google_absl//absl/flags:flag",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
+        "@org_tensorflow//tensorflow/core:lib",
         # tf:lib tensorflow dep,
         # tf:test_main tensorflow dep,
     ],
@@ -1227,6 +1231,7 @@ cc_test(
         ":whitespace_tokenizer_config_builder",
         "@com_google_googletest//:gtest_main",
         "@icu//:common",
+        "@org_tensorflow//tensorflow/core:lib",
         # tf:lib tensorflow dep,
         # tf:test_main tensorflow dep,
     ],

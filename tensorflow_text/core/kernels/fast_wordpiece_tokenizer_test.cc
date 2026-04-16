@@ -2552,3 +2552,15 @@ INSTANTIATE_TEST_SUITE_P(
 }  // namespace
 }  // namespace text
 }  // namespace tensorflow
+  ASSERT_OK_AND_ASSIGN(auto output_text,
+                       tokenizer.Detokenize(spec.expected_token_ids));
+  EXPECT_THAT(output_text, spec.expected_detokenized_text);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    FastWordpieceTokenizerDetokenizeParameterizedTest, TestTokenizeDetokenize,
+    testing::ValuesIn(GetTestSpecsForTokenizeDetokenize()));
+
+}  // namespace
+}  // namespace text
+}  // namespace tensorflow

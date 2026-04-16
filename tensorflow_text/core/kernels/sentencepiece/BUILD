@@ -247,8 +247,6 @@ cc_test(
         ":encoder_config",
         ":model_converter",
         ":optimized_encoder",
-        "//file/base:path",
-        "//file/localfile",
         "@com_google_googletest//:gtest_main",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/strings:str_format",
@@ -270,8 +268,6 @@ cc_test(
     deps = [
         ":model_converter",
         ":optimized_decoder",
-        "//file/base:path",
-        "//file/localfile",
         "@com_google_googletest//:gtest_main",
         "@com_google_absl//absl/strings:str_format",
         "@com_google_sentencepiece//:sentencepiece_cc_proto",
