@@ -66,10 +66,27 @@ RUN git init /workspace/text && git config --global --add safe.directory /worksp
     git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin && \
     git checkout 2.21
 
+# Set the env since we aren't using the normal build targets
+ENV PYTHON_BIN_PATH="/opt/venv/python3.12/bin/python3.12" \
+    PYTHON_LIB_PATH="/opt/venv/lib/python3.12/site-packages" \
+    HERMETIC_PYTHON_VERSION=3.12 \
+    HERMETIC_CUDA_VERSION="12.8.1" \
+    HERMETIC_CUDNN_VERSION="9.8.0" \
+    HERMETIC_CUDA_COMPUTE_CAPABILITIES="compute_90,compute_100,compute_101,compute_120,sm_90a,sm_100a,sm_101a,sm_120a" \
+    HERMETIC_NCCL_VERSION="2.27.7" \
+    CLANG_CUDA_COMPILER_PATH="/tmp/staging/LLVM-20.1.7-Linux-X64/bin/clang" \
+    CPP_PATH="/tmp/staging/LLVM-20.1.7-Linux-X64/bin/clang++" \
+    CXX="/tmp/staging/LLVM-20.1.7-Linux-X64/bin/clang++" \
+    GCC_PATH="/tmp/staging/LLVM-20.1.7-Linux-X64/bin/clang" \
+    CC="/tmp/staging/LLVM-20.1.7-Linux-X64/bin/clang" \
+    CLANG_COMPILER_PATH="/tmp/staging/LLVM-20.1.7-Linux-X64/bin/clang"
+
 # Copy the CUDA config into the image
-COPY text_r2.21.brc .tf_configure.bazelrc
+COPY text_r2.21.brc .bazelrc
+COPY text_r2.21.tfc .tf_configure.bazelrc
 RUN --mount=type=cache,target=/root/.cache/bazel,id=bazel-cache \
-    bazel run //oss_scripts/pip_package:build_pip_package -- /workspace/text/dist
+    bazel run --experimental_repo_remote_exec --repo_env=USE_PYWRAP_RULES=False \
+      //oss_scripts/pip_package:build_pip_package -- /workspace/text/dist
 
 # Export the wheels
 RUN --mount=type=cache,target=/root/.cache/bazel,id=bazel-cache \
