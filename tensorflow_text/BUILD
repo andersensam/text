@@ -12,6 +12,12 @@ package(
 
 licenses(["notice"])
 
+filegroup(
+    name = "license",
+    srcs = ["LICENSE"],
+    visibility = ["//visibility:public"],
+)
+
 exports_files(["LICENSE"])
 
 exports_files([
